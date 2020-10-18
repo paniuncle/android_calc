@@ -1,13 +1,18 @@
 package com.orzmo.calc.controller;
 
+import android.telecom.Call;
+
+import com.orzmo.calc.utils.CallBack;
+
 import java.util.Arrays;
 
 public class Calc {
-
+    private static final String TAG = "Calc";
     private String num1 = "";
     private String num2 = "";
     private String op = "";
     private Boolean canSetDot = true;
+
 
     public Calc() {
 
@@ -24,32 +29,50 @@ public class Calc {
         } else {
             this.num2 = this.num2 + c;
         }
+
+    }
+
+    public void setOp(char c) {
+        // 当num2不为空
+
+        this.op = String.valueOf(c);
+//        if(!num2.equals("")){
+//            String temp = this.equals();
+//            this.resetCalc();
+//            this.num1 = temp;
+//            this.op = String.valueOf(c);
+//        } else {
+//            this.op = String.valueOf(c);
+//            this.canSetDot = true;
+//        }
     }
 
     /**
      * @description 设置小数点
      */
-    public void setDot() {
+    public void setDot(CallBack cb) {
         // 判断是否可以使用Dot
         if (this.canSetDot) {
             // 如果操作符为空则放入num1 否则放入num2
             if (this.op.equals("")) {
                 // 判断num1是否为空，如果为空则增加0.
-                if(this.num1.equals("")) {
-                    this.num1 = "0.";
+                if(this.num1.equals("") || this.num1.equals("-")) {
+                    this.num1 = this.num1 + "0.";
                 } else {
                     this.num1 = this.num1 + ".";
                 }
             } else {
                 // 判断num2是否为空，如果为空则增加0.
-                if(this.num2.equals("")) {
-                    this.num2 = "0.";
+                if(this.num2.equals("") || this.num2.equals("-")) {
+                    this.num2 = this.num2 + "0.";
                 } else {
                     this.num2 = this.num2 + ".";
                 }
             }
 
             this.canSetDot = false;
+        } else {
+            cb.run("已经按过小数点了");
         }
 
     }
@@ -99,6 +122,94 @@ public class Calc {
             this.num2 = this.join(end, "");
             this.canSetDot = !this.num1.contains(".");
         }
+    }
+
+    /**
+     * @description 取反
+     */
+    public void revers(CallBack cb) {
+        // 如果都是空则不执行
+        if(this.num1.equals("") && this.num2.equals("")) {
+            cb.run("输入为空不能取反！");
+            return;
+        }
+
+        if (this.op.equals("")) {
+            String[] temp = this.num1.split("");
+
+            String[] end;
+
+            if(temp[1].equals("-")){
+                end = Arrays.copyOfRange(temp,2,temp.length);
+                this.num1 = this.join(end, "");
+            }else{
+                end = Arrays.copyOf(temp, temp.length);
+                this.num1 = this.join(end, "");
+                this.num1 = "-" + this.num1;
+            }
+        } else {
+            String[] temp = this.num2.split("");
+
+            String[] end;
+            if(temp[1].equals("-")){
+                end = Arrays.copyOfRange(temp,2,temp.length);
+                this.num2 = this.join(end, "");
+            }else{
+                end = Arrays.copyOf(temp, temp.length);
+                this.num2 = this.join(end, "");
+                this.num2 = "-" + this.num2;
+            }
+        }
+    }
+
+    /**
+     * @description 重设计算器
+     */
+    public void resetCalc() {
+        this.num1 = "";
+        this.num2 = "";
+        this.op = "";
+        this.canSetDot = true;
+    }
+
+    public String equals() {
+        if (this.num1.equals("") || this.num2.equals("") || this.op.equals("")) {
+            return this.getNowNum();
+        }
+
+        switch (this.op) {
+            case "m":
+                return formatNum(this.getNum1() % this.getNum2());
+            case "d":
+                return formatNum(this.getNum1() / this.getNum2());
+            case "t":
+                return formatNum(this.getNum1() * this.getNum2());
+            case "s":
+                return formatNum(this.getNum1() - this.getNum2());
+            case "p":
+                return formatNum(this.getNum1() + this.getNum2());
+                default:
+                    return "";
+        }
+    }
+
+    private String formatNum(Double d) {
+        this.resetCalc();
+        if (Math.round(d) - d == 0) {
+            this.num1 = String.valueOf(Math.round(d));
+            return String.valueOf(Math.round(d));
+        }
+        this.num1 = String.valueOf(d);
+        this.canSetDot = false;
+        return String.valueOf(d);
+    }
+
+    private Double getNum1() {
+        return Double.valueOf(this.num1);
+    }
+
+    private Double getNum2() {
+        return Double.valueOf(this.num2);
     }
 
 }

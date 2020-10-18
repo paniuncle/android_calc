@@ -7,13 +7,16 @@ package com.orzmo.calc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.orzmo.calc.controller.Calc;
+import com.orzmo.calc.utils.CallBack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -124,27 +127,47 @@ public class MainActivity extends AppCompatActivity {
     private void handleTapEvent(char c) {
         switch (c) {
             case 'a':
+                this.calc.resetCalc();
                 break;
             case 'b':
                 this.calc.backInput();
                 break;
             case 'r':
+                this.calc.revers(new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
                 break;
             case 'm':
+                this.calc.setOp(c);
                 break;
             case 'd':
+                this.calc.setOp(c);
                 break;
             case 't':
+                this.calc.setOp(c);
                 break;
             case 's':
+                this.calc.setOp(c);
                 break;
             case 'p':
+                this.calc.setOp(c);
                 break;
             case 'o':
-                this.calc.setDot();
+                this.calc.setDot(new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
                 break;
             case 'e':
-                break;
+                this.renderResult(this.calc.equals());
+                return;
 
                 default:
                     this.calc.setNum(c);
@@ -157,5 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void renderResult(String r) {
         this.resultView.setText(r);
+    }
+
+
+    public void showToast(String s) {
+        Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
     }
 }
