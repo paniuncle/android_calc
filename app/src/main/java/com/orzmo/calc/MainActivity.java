@@ -142,19 +142,49 @@ public class MainActivity extends AppCompatActivity {
                 });
                 break;
             case 'm':
-                this.calc.setOp(c);
+                this.calc.setOp(c, new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
                 break;
             case 'd':
-                this.calc.setOp(c);
+                this.calc.setOp(c, new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
                 break;
             case 't':
-                this.calc.setOp(c);
+                this.calc.setOp(c, new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
                 break;
             case 's':
-                this.calc.setOp(c);
+                this.calc.setOp(c, new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
                 break;
             case 'p':
-                this.calc.setOp(c);
+                this.calc.setOp(c, new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
                 break;
             case 'o':
                 this.calc.setDot(new CallBack() {

@@ -4,6 +4,7 @@ import android.telecom.Call;
 
 import com.orzmo.calc.utils.CallBack;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class Calc {
@@ -32,10 +33,14 @@ public class Calc {
 
     }
 
-    public void setOp(char c) {
+    public void setOp(char c, CallBack cb) {
         // 当num2不为空
-
+        if(this.num1.equals("")) {
+            cb.run("你不能先输入符号");
+            return;
+        }
         this.op = String.valueOf(c);
+        this.canSetDot = true;
 //        if(!num2.equals("")){
 //            String temp = this.equals();
 //            this.resetCalc();
@@ -193,13 +198,20 @@ public class Calc {
         }
     }
 
+    /**
+     *
+     * @param d
+     * @return
+     */
     private String formatNum(Double d) {
         this.resetCalc();
+        BigDecimal bg = new BigDecimal(d).setScale(8, BigDecimal.ROUND_HALF_UP);
+        double num = bg.doubleValue();
         if (Math.round(d) - d == 0) {
             this.num1 = String.valueOf(Math.round(d));
             return String.valueOf(Math.round(d));
         }
-        this.num1 = String.valueOf(d);
+        this.num1 = String.valueOf(num);
         this.canSetDot = false;
         return String.valueOf(d);
     }
