@@ -11,8 +11,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.orzmo.calc.controller.Calc;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Calc calc;
+    private TextView resultView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +33,16 @@ public class MainActivity extends AppCompatActivity {
         // 设置基础布局文件
         setContentView(R.layout.activity_main);
 
+        // 获取结果显示框实例
+        this.resultView = (TextView) findViewById(R.id.text_result);
+
         // 绑定点击事件
         bindTapEvent();
+
+        // 初始化计算器实例
+        this.calc = new Calc();
+
+
     }
 
     /**
@@ -76,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         this.eventGenerator(button_0, '0');
         this.eventGenerator(button_dot, 'o');
         this.eventGenerator(button_equal, 'e');
+        this.textViewEventGenerator(this.resultView, 'b');
 
     }
 
@@ -93,11 +108,54 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void textViewEventGenerator(TextView t1, final char c) {
+        t1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleTapEvent(c);
+            }
+        });
+    }
+
     /**
      * @description 处理点击事件
      * @param c
      */
     private void handleTapEvent(char c) {
-        Log.d("MainActivity", String.valueOf(c));
+        switch (c) {
+            case 'a':
+                break;
+            case 'b':
+                this.calc.backInput();
+                break;
+            case 'r':
+                break;
+            case 'm':
+                break;
+            case 'd':
+                break;
+            case 't':
+                break;
+            case 's':
+                break;
+            case 'p':
+                break;
+            case 'o':
+                this.calc.setDot();
+                break;
+            case 'e':
+                break;
+
+                default:
+                    this.calc.setNum(c);
+                    break;
+        }
+
+        // 渲染结果
+        this.renderResult(this.calc.getNowNum());
+    }
+
+    private void renderResult(String r) {
+        this.resultView.setText(r);
     }
 }

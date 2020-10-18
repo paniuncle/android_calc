@@ -20,7 +20,7 @@
             android:textSize="50sp"
             android:background="#F2F6FC"
             android:gravity="right"
-            android:text="90"
+            android:clickable="true"
             />
 
         <LinearLayout
