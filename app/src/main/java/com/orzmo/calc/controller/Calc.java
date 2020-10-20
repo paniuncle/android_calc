@@ -34,6 +34,7 @@ public class Calc {
     }
 
     public void setOp(char c, CallBack cb) {
+        String temp = String.valueOf(c);
         // 当num2不为空
         if(this.num1.equals("")) {
             cb.run("你不能先输入符号");
@@ -41,6 +42,20 @@ public class Calc {
         }
         this.op = String.valueOf(c);
         this.canSetDot = true;
+
+        if (temp.equals("u")) {
+            if (Double.parseDouble(this.num1) < 0){
+                cb.run("您输入不能为负数");
+            }else {
+                this.formatNum(Math.sqrt(Double.parseDouble(this.num1)));
+            }
+
+        }
+
+        if (temp.equals("i")) {
+            this.formatNum(Math.sin(Double.parseDouble(this.num1)));
+        }
+
 //        if(!num2.equals("")){
 //            String temp = this.equals();
 //            this.resetCalc();
@@ -204,6 +219,7 @@ public class Calc {
      * @return
      */
     private String formatNum(Double d) {
+        System.out.println(d);
         this.resetCalc();
         BigDecimal bg = new BigDecimal(d).setScale(8, BigDecimal.ROUND_HALF_UP);
         double num = bg.doubleValue();

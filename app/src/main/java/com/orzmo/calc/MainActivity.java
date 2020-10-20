@@ -73,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         Button button_dot = (Button) findViewById(R.id.button_dot);
         Button button_equal = (Button) findViewById(R.id.button_equal);
 
+        // 特殊事件 开平方
+        Button button_squr = (Button) findViewById(R.id.button_squr);
+        Button button_sin = (Button) findViewById(R.id.button_sin);
+
         // 绑定点击事件
         this.eventGenerator(button_ac, 'a');
         this.eventGenerator(button_revers, 'r');
@@ -93,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         this.eventGenerator(button_0, '0');
         this.eventGenerator(button_dot, 'o');
         this.eventGenerator(button_equal, 'e');
+        this.eventGenerator(button_squr, 'u');
+        this.eventGenerator(button_sin, 'i');
         this.textViewEventGenerator(this.resultView, 'b');
 
     }
@@ -198,6 +204,26 @@ public class MainActivity extends AppCompatActivity {
             case 'e':
                 this.renderResult(this.calc.equals());
                 return;
+
+            case 'u':
+                this.calc.setOp('u',new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
+                break;
+
+            case 'i':
+                this.calc.setOp('i',new CallBack() {
+                    @Override
+                    public void run (String s) {
+                        Log.d("MainActivity", "callback");
+                        showToast(s);
+                    }
+                });
+                break;
 
                 default:
                     this.calc.setNum(c);

@@ -24,6 +24,29 @@
             />
 
         <LinearLayout
+            android:id="@+id/layer7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/button-sin"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sin"
+                android:layout_width="wrap_content"
+                android:textSize="30sp"
+                />
+            <Button
+                android:id="@+id/button-squr"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="√￣"
+                android:textSize="30sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/layer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
