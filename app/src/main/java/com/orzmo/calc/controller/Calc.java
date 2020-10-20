@@ -13,10 +13,16 @@ public class Calc {
     private String num2 = "";
     private String op = "";
     private Boolean canSetDot = true;
+    private CallBack cba;
 
 
     public Calc() {
 
+    }
+
+
+    public Calc(CallBack cb) {
+        this.cba = cb;
     }
 
     /**
@@ -192,6 +198,10 @@ public class Calc {
         this.canSetDot = true;
     }
 
+    /**
+     * @description 等于运算
+     * @return
+     */
     public String equals() {
         if (this.num1.equals("") || this.num2.equals("") || this.op.equals("")) {
             return this.getNowNum();
@@ -201,15 +211,20 @@ public class Calc {
             case "m":
                 return formatNum(this.getNum1() % this.getNum2());
             case "d":
-                return formatNum(this.getNum1() / this.getNum2());
+                if (this.num2.equals("0")){
+                    this.cba.run("除数不为0");
+                } else{
+                    return formatNum(this.getNum1() / this.getNum2());
+                }
+
             case "t":
                 return formatNum(this.getNum1() * this.getNum2());
             case "s":
                 return formatNum(this.getNum1() - this.getNum2());
             case "p":
                 return formatNum(this.getNum1() + this.getNum2());
-                default:
-                    return "";
+            default:
+                return "";
         }
     }
 
@@ -232,10 +247,18 @@ public class Calc {
         return String.valueOf(d);
     }
 
+    /**
+     * @description 获取double类型的num1
+     * @return
+     */
     private Double getNum1() {
         return Double.valueOf(this.num1);
     }
 
+    /**
+     * @description 获取double类型的num2
+     * @return
+     */
     private Double getNum2() {
         return Double.valueOf(this.num2);
     }

@@ -43,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
         bindTapEvent();
 
         // 初始化计算器实例
-        this.calc = new Calc();
+        this.calc = new Calc(new CallBack() {
+            @Override
+            public void run (String s) {
+                Log.d("MainActivity", "callback");
+                showToast(s);
+            }
+        });
 
 
     }
